@@ -1,8 +1,17 @@
-- name: Discord Commits
-        uses: Sniddl/discord-commits@v1.3
-        with:
-          webhook: ${{ secrets.https://discordapp.com/api/webhooks/896886326056603668/XWjYUYHZdRiqWwre1fVynfHr6D5NeCRXPMgZZkl2P9O53-IB2PMqMWxI6UWazK7lidVq }}
-          message: "Successful commit to **{{ github.context.payload.repository.owner.name }}/{{ github.context.payload.repository.name}}**.\nDiff: {{ github.context.payload.compare }}"
-          embed: '{ "title": "{{ commit.title }}", "description": "{{ commit.description }}", "url": "{{ commit.url }}", "author": { "name": "{{ commit.author.name }} ({{ commit.author.username }})", "icon_url": "https://avatars.io/gravatar/{{ commit.author.email }}"} }'
-          last-commit-only: false
+name: "Discord Commits"
+description: "GitHub Action for Discord that prints ALL commit messages."
+branding:
+  icon: "bell"
+  color: "purple"
+inputs:
+  webhook: https://discordapp.com/api/webhooks/896886326056603668/XWjYUYHZdRiqWwre1fVynfHr6D5NeCRXPMgZZkl2P9O53-IB2PMqMWxI6UWazK7lidVq
+    description: "discord webhook url without /github"
+    required: true
+  message:
+    description: "A general message that is displayed for all commits."
+  embed:
+    description: "JSON string that accepts double braces for templates."
 
+runs:
+  using: "node12"
+  main: "discord-commits/index.js"
